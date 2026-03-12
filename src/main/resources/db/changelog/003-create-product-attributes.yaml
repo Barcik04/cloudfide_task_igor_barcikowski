@@ -22,7 +22,7 @@ databaseChangeLog:
                     nullable: false
 
               - column:
-                  name: value
+                  name: attribute_value
                   type: VARCHAR(1000)
                   constraints:
                     nullable: false

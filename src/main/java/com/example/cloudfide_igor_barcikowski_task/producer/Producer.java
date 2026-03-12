@@ -1,12 +1,11 @@
-package producer;
+package com.example.cloudfide_igor_barcikowski_task.producer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import product.Product;
+import com.example.cloudfide_igor_barcikowski_task.product.Product;
 
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity

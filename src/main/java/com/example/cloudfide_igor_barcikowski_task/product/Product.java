@@ -1,9 +1,9 @@
-package product;
+package com.example.cloudfide_igor_barcikowski_task.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import producer.Producer;
-import productattributes.ProductAttribute;
+import com.example.cloudfide_igor_barcikowski_task.producer.Producer;
+import com.example.cloudfide_igor_barcikowski_task.productattributes.ProductAttribute;
 
 import java.math.BigDecimal;
 import java.time.Instant;

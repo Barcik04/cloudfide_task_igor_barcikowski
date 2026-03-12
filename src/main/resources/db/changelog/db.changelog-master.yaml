@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/001-create-producers.yaml
+  - include:
+      file: db/changelog/002-create-products.yaml
+  - include:
+      file: db/changelog/003-create-product-attributes.yaml

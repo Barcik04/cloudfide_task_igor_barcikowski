@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-products
+      author: igor
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_products
+                    nullable: false
+
+              - column:
+                  name: product_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: description
+                  type: VARCHAR(1000)
+
+              - column:
+                  name: available_amount
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: producer_id
+                  type: BIGINT
+
+        - addForeignKeyConstraint:
+            baseTableName: products
+            baseColumnNames: producer_id
+            constraintName: product_producer_id_fk
+            referencedTableName: producers
+            referencedColumnNames: id

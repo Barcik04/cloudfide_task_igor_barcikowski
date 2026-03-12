@@ -1,10 +1,9 @@
-package productattributes;
+package com.example.cloudfide_igor_barcikowski_task.productattributes;
 
 import jakarta.persistence.*;
-import product.Product;
+import com.example.cloudfide_igor_barcikowski_task.product.Product;
 
 import java.time.Instant;
-import java.util.Objects;
 
 @Entity
 @Table(name = "product_attributes")
@@ -16,7 +15,7 @@ public class ProductAttribute {
     @Column(name = "attribute_name", nullable = false)
     private String attributeName;
 
-    @Column(name = "value", nullable = false)
+    @Column(name = "attribute_value", nullable = false)
     private String value;
 
     @Column(name = "created_at", nullable = false)
@@ -30,6 +29,11 @@ public class ProductAttribute {
         this.attributeName = attributeName;
         this.value = value;
         this.product = product;
+    }
+
+    public ProductAttribute(String attributeName, String value) {
+        this.attributeName = attributeName;
+        this.value = value;
     }
 
     public ProductAttribute() {

@@ -44,7 +44,7 @@
     - Junit5
     - Spring Boot Test
 
-### ACESS TO
+### ACCESS TO
     1. Swagger API: http://localhost:8080/swagger-ui/index.html#
     2. H2 console: http://localhost:8080/h2-console
 

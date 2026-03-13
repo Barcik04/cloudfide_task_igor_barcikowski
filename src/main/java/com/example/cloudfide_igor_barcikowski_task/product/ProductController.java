@@ -5,9 +5,14 @@ import com.example.cloudfide_igor_barcikowski_task.product.dto.ProductPatchReque
 import com.example.cloudfide_igor_barcikowski_task.product.dto.ProductResponse;
 import com.example.cloudfide_igor_barcikowski_task.productattributes.dto.ProductAttributeRequest;
 import com.example.cloudfide_igor_barcikowski_task.productattributes.dto.ProductAttributesPatchRequest;
+import com.example.cloudfide_igor_barcikowski_task.utils.dynamicfilter.ProductFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +28,18 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+
+
+    @Operation(
+            summary = "Retrieving all products from the system with dynamic filtering")
+    @GetMapping("/get-all")
+    public Page<ProductResponse> getAllProducts(
+            @PageableDefault(page = 0, size = 10, sort = "productName") @ParameterObject Pageable pageable,
+            @ParameterObject ProductFilter filter
+            ) {
+        return productService.getAllProducts(pageable, filter);
+    }
+
 
 
     @Operation(
@@ -95,5 +112,14 @@ public class ProductController {
             @PathVariable @Positive Long productId
     ) {
         productService.deleteProduct(productId);
+    }
+
+
+
+    @Operation(
+            summary = "Retrieve product by its id")
+    @GetMapping("/{productId}")
+    public ProductResponse getProductById(@PathVariable @Positive Long productId) {
+        return productService.getProductById(productId);
     }
 }

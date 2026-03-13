@@ -11,6 +11,12 @@ import com.example.cloudfide_igor_barcikowski_task.productattributes.ProductAttr
 import com.example.cloudfide_igor_barcikowski_task.productattributes.ProductAttributeRepository;
 import com.example.cloudfide_igor_barcikowski_task.productattributes.dto.ProductAttributeRequest;
 import com.example.cloudfide_igor_barcikowski_task.productattributes.dto.ProductAttributesPatchRequest;
+import com.example.cloudfide_igor_barcikowski_task.utils.dynamicfilter.ProductFilter;
+import com.example.cloudfide_igor_barcikowski_task.utils.dynamicfilter.ProductSpecs;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +35,38 @@ public class ProductService {
         this.productMapper = productMapper;
         this.productAttributeRepository = productAttributeRepository;
     }
+
+
+    @Transactional(readOnly = true)
+    public Page<ProductResponse> getAllProducts(Pageable pageable, ProductFilter productFilter) {
+        Pageable safePageable = pageable;
+
+        if (pageable.getPageSize() > 100) {
+            safePageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    100
+            );
+        }
+
+        if (productFilter != null
+                && productFilter.minPrice() != null
+                && productFilter.maxPrice() != null
+                && productFilter.minPrice().compareTo(productFilter.maxPrice()) > 0) {
+            throw new IllegalArgumentException("minPrice cannot be greater than maxPrice");
+        }
+
+        Specification<Product> spec = Specification
+                .where(ProductSpecs.textSearch(productFilter != null ? productFilter.q() : null))
+                .and(ProductSpecs.priceGreaterThanOrEqualTo(productFilter != null ? productFilter.minPrice() : null))
+                .and(ProductSpecs.priceLessThanOrEqualTo(productFilter != null ? productFilter.maxPrice() : null))
+                .and(ProductSpecs.hasProducerName(productFilter != null ? productFilter.producerName() : null));
+
+
+        Page<Product> products =  productRepository.findAll(spec, safePageable);
+        return productMapper.toProductResponsePageDto(products);
+    }
+
+
 
 
     @Transactional
@@ -159,6 +197,7 @@ public class ProductService {
 
 
 
+
     @Transactional
     public void deleteProduct(Long productId) {
         if (productId == null) {
@@ -173,6 +212,17 @@ public class ProductService {
 
 
 
+    @Transactional(readOnly = true)
+    public ProductResponse getProductById(Long productId) {
+        if (productId == null) {
+            throw new IllegalArgumentException("productId cannot be null");
+        }
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NoSuchElementException("product with this id not found"));
+
+        return productMapper.toProductResponseDto(product);
+    }
 }
 
 

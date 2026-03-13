@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-add-indexes-to-products
+      author: igor
+      changes:
+        - createIndex:
+            indexName: idx_products_price
+            tableName: products
+            columns:
+              - column:
+                  name: price
+        - createIndex:
+            indexName: idx_products_producer_id
+            tableName: products
+            columns:
+              - column:
+                  name: producer_id

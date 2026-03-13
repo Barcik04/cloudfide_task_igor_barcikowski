@@ -1,6 +1,8 @@
 ### ABOUT
     E-commerce platform task by Igor Barcikowski
 
+    Note: Integration tests cover the most important methods.
+
 
 ### DATA RELATIONS DIAGRAM
 <img width="1343" height="371" alt="image" src="https://github.com/user-attachments/assets/fc3db70e-8e46-4813-ac20-d084ff7b61ef" />
@@ -37,6 +39,10 @@
     - Spring Validation
     - REST API
     - Springdoc OpenAPI (Swagger)
+
+    ## Tests
+    - Junit5
+    - Spring Boot Test
 
 ### ACESS TO
     1. Swagger API: http://localhost:8080/swagger-ui/index.html#

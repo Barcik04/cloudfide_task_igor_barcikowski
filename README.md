@@ -76,5 +76,10 @@
         ```bash
         mvn spring-boot:run
 
-
+### USAGE NOTES
+    - To create a product, an existing producer is required.
+    - Product attributes can be passed during product creation or added later.
+    - Swagger contains default example values for easier testing.
+    - Products endpoint supports dynamic filtering, pagination, and sorting.
+    - To create productAttribute, an existing product is required.
 

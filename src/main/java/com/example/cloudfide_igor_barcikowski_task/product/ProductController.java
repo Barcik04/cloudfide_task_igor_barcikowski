@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 
 @RestController
 @Validated
@@ -49,7 +51,7 @@ public class ProductController {
             @RequestBody @Valid ProductCreateRequest  productCreateRequest,
             @PathVariable @Positive Long producerId
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProducts(productCreateRequest, producerId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(productCreateRequest, producerId));
     }
 
 
@@ -98,9 +100,9 @@ public class ProductController {
     @PostMapping("/{productId}")
     public ResponseEntity<ProductResponse> addAttributeToProduct(
             @PathVariable @Positive Long productId,
-            @RequestBody @Valid ProductAttributeRequest productAttributeRequest
+            @RequestBody @Valid Set<ProductAttributeRequest> productAttributesRequest
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addAttribute(productId, productAttributeRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addAttributes(productId, productAttributesRequest));
     }
 
 

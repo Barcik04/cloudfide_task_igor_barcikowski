@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/002-create-products.yaml
   - include:
       file: db/changelog/003-create-product-attributes.yaml
+  - include:
+      file: db/changelog/004-add-indexes-to-products.yaml

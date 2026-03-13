@@ -70,7 +70,7 @@ public class ProductService {
 
 
     @Transactional
-    public ProductResponse createProducts(ProductCreateRequest productCreateRequest, Long producerId) {
+    public ProductResponse createProduct(ProductCreateRequest productCreateRequest, Long producerId) {
         if (productCreateRequest == null) {
             throw new IllegalArgumentException("productCreateRequest cannot be null");
         }
@@ -118,7 +118,7 @@ public class ProductService {
                 .orElseThrow(() -> new NoSuchElementException("product with this id not found"));
 
         if (patchRequest.productName() != null && !patchRequest.productName().isBlank()) {product.setProductName(patchRequest.productName());}
-        if (patchRequest.productName() != null && !patchRequest.description().isBlank()) {product.setDescription(patchRequest.description());}
+        if (patchRequest.description() != null && !patchRequest.description().isBlank()) {product.setDescription(patchRequest.description());}
         if (patchRequest.quantity() != null) {product.setQuantity(patchRequest.quantity());}
         if (patchRequest.price() != null) {product.setPrice(patchRequest.price());}
 
@@ -177,20 +177,27 @@ public class ProductService {
 
 
     @Transactional
-    public ProductResponse addAttribute(Long productId, ProductAttributeRequest attributeRequest) {
-        if (productId == null || attributeRequest == null) {
-            throw new IllegalArgumentException("productId and attributeRequest cannot be null");
+    public ProductResponse addAttributes(Long productId, Set<ProductAttributeRequest> productAttributes) {
+        if (productId == null || productAttributes == null) {
+            throw new IllegalArgumentException("productId and productAttributes cannot be null");
         }
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NoSuchElementException("product with this id not found"));
 
-        ProductAttribute attribute = new ProductAttribute(
-                attributeRequest.name(),
-                attributeRequest.value()
-        );
+        for (ProductAttributeRequest attributeRequest : productAttributes) {
+            if (attributeRequest == null) {
+                throw new IllegalArgumentException("attributeRequest cannot be null");
+            }
 
-        product.addProductAttribute(attribute);
+            ProductAttribute attribute = new ProductAttribute(
+                    attributeRequest.name(),
+                    attributeRequest.value()
+            );
+
+            product.addProductAttribute(attribute);
+        }
+
         Product savedProduct = productRepository.save(product);
         return  productMapper.toProductResponseDto(savedProduct);
     }

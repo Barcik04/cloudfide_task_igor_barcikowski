@@ -50,7 +50,7 @@
 
 ### FILTERING
     System supports dynamic filtering feature with pagination.
-    Here are a couple of examples of how to use fitlering:
+    Here are a couple of examples on how to use fitlering:
         -- GET /api/v1/products/get-all?q=phone
         -- GET /api/v1/products/get-all?minPrice=100&maxPrice=500
         -- GET /api/v1/products/get-all?producerName=samsung&sort=productName,asc
